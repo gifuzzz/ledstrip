@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>Reconnetting</title>
+</head>
+<body>
+    Reconnetting...
+</body>
+</html>
+<script>
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+const main = async () => {
+    var status = '';
+    while (status != 'conn') {
+        status = 'Reconnetting...';
+        fetch('/status')
+        .then(res => res.text().then(text => status = text))
+        .catch(err => status = 'Reconnetting...');
+        console.log(status)
+        await sleep(2000);
+    }
+    $('body').text('Try now');
+    document.title = 'Try now';
+}
+main()
+</script>

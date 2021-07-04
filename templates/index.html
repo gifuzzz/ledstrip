@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Led Strip Control</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+</head>
+
+<body>
+    <p>
+        Watch the paragraph colors change when you adjust the color picker.
+        As you make changes in the color picker, the first paragraph's
+        color changes, as a preview (this uses the <code>input</code>
+        event). When you close the color picker, the <code>change</code>
+        event fires, and we detect that to change every paragraph to
+        the selected color.
+    </p>
+
+    <table>
+        <tbody>
+            <tr>
+                <tH><a href="reload">RELOAD</a></tH>
+            </tr>
+            <tr>
+                <th>OFF / ON</th>
+                <td>
+                    <label class="switch">
+                        <input type="checkbox" id="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>BRIGHTNESS</th>
+                <td><div id="slider"></div></td>
+            </tr>
+            <tr>
+                <th>COLOR</th>
+                <td><input id="color-picker" value="#{{currColor}}"/></td>
+            </tr>
+            <tr>
+                <th>EFFECT SPEED</th>
+                <td><div id="sliderspeed"></div></td>
+            </tr>
+        </tbody>
+    </table>
+    {% for mode in modes %}
+    <button type="button" class="btn btn-primary" style="margin-top: 5px" id="{{modes[mode]}}">{{mode}}</button>
+    {% endfor %}
+</body>
+
+</html>
+<script src="static/index.js"></script>
+<link rel="stylesheet" type="text/css" href="static/index.css">
+
+<script>
+    {% if isOn %}
+    $('#checkbox').prop('checked', true);
+    {% endif %}
+    
+    slider.slider({
+        value: {{lvl}},
+    });
+
+    sliderspeed.slider({
+        value: {{val}},
+    })
+</script>
+<style>
+
+#slider .ui-slider-range, #sliderspeed .ui-slider-range {
+    background: #{{currColor}};
+}
+
+#slider .ui-slider-handle, #sliderspeed .ui-slider-handle {
+    border-color: #{{currColor}};
+}
+
+</style>
