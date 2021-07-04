@@ -3,7 +3,6 @@ from flask.app import Flask
 from flask import render_template, request
 import rgbLedControl as ctl
 from threading import Thread
-import socket
 
 app = Flask(__name__, static_folder='static')
 
@@ -11,13 +10,6 @@ currColor = "ff1900" # 2d0435
 lvl = 75
 val = 75
 isOn = False
-
-def getLocalIp():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    localIp = s.getsockname()[0]
-    s.close()
-    return localIp
 
 @app.route('/')
 def index():
@@ -126,4 +118,4 @@ def conn():
         ctl.checkConn()
         sleep(300)
 Thread(target=conn).start()
-app.run(getLocalIp(), 3000)
+app.run('0.0.0.0', 3000)
