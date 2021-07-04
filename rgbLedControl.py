@@ -16,7 +16,7 @@ p.connect(CONFIG['MAC'])
 def checkConn():
     while p.getState() != 'conn':
         sleep(5)
-        p.connect('BE:89:80:02:EE:EF')
+        p.connect(CONFIG['MAC'])
 
 chars = p.getCharacteristics()
 writable = chars[2]
