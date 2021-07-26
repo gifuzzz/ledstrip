@@ -28,7 +28,15 @@
     <table>
         <tbody>
             <tr>
-                <tH><a href="reload">RELOAD</a></tH>
+                <th>
+                    <input id="mac" placeholder="mac address"/>
+                </th>
+                <td>
+                    <button type="submit" id="changemac" class="btn btn-success">Set New Mac</button>
+                </td>
+            </tr>
+            <tr>
+                <th><a href="reload">RELOAD</a></th>
             </tr>
             <tr>
                 <th>OFF / ON</th>
@@ -54,7 +62,7 @@
         </tbody>
     </table>
     {% for mode in modes %}
-    <button type="button" class="btn btn-primary" style="margin-top: 5px" id="{{modes[mode]}}">{{mode}}</button>
+    <button type="button" class="mode btn btn-primary" style="margin-top: 5px" id="{{modes[mode]}}">{{mode}}</button>
     {% endfor %}
 </body>
 

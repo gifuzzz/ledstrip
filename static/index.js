@@ -11,6 +11,20 @@ const get = (url) => {
     });
 }
 
+const post = (url, data) => {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function (result) {
+            console.log('success: ' + result)
+        },
+        error: function (result) {
+            console.log('error: ' + result.error);
+        }
+    });
+}
+
 var colorPicker = $('#color-picker')
 
 colorPicker.spectrum({
@@ -88,6 +102,10 @@ $('#checkbox').change(() => {
     }
 })
 
-$('.btn').click(function() {
+$('.mode').click(function() {
     get('/mode?mode=' + this.id)
+})
+
+$('#changemac').click(() => {
+    post('/setmac', { mac: $('#mac').val() })
 })

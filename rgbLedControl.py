@@ -11,15 +11,24 @@ import config
 # call('rfkill unblock bluetooth && sudo service bluetooth start', shell=True)
 
 p = Peripheral()
-p.connect(config.MAC)
+try:
+    p.connect(config.MAC)
+except:
+    pass
 
 def checkConn():
     while p.getState() != 'conn':
         sleep(5)
-        p.connect(config.MAC)
+        try:
+            p.connect(config.MAC)
+        except:
+            pass
 
-chars = p.getCharacteristics()
-writable = chars[2]
+try:
+    chars = p.getCharacteristics()
+    writable = chars[2]
+except:
+    pass
 
 # True to power on, False to power off
 def setPower(on: bool):

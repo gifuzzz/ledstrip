@@ -4,6 +4,10 @@ from flask.app import Flask
 from flask import render_template, request
 import rgbLedControl as ctl
 from threading import Thread
+import sys, string
+from os import path
+
+usable = ''.join([string.ascii_letters, string.digits, ':'])
 
 app = Flask(__name__, static_folder='static')
 
@@ -81,6 +85,27 @@ def reload():
 @app.route('/status')
 def status():
     return ctl.p.getState()
+
+@app.route('/setmac', methods=['POST'])
+def setMac():
+    if not 'mac' in request.form.keys():
+        return 'no'
+
+    mac = request.form.get('mac').strip()
+    if len(mac) != 17 or len(mac.split(':')) != 6 or any([len(i) != 2 for i in mac.split(':')]) or any([i not in usable for i in mac]):
+        return 'no'
+    with open(path.join('config.py'),'w') as f:
+        f.write('MAC = "'+mac+'"')
+        ctl.config.MAC = mac
+        ctl.p.disconnect()
+        try:
+            ctl.p.connect(mac)
+            chars = ctl.p.getCharacteristics()
+            ctl.writable = chars[2]
+        except Exception as e:
+            print(e, flush=True)
+            return 'errore'
+    return 'ok'
 
 modes = {
     'red': '80',
