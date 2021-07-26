@@ -2,7 +2,7 @@ from bluepy.btle import Peripheral
 from binascii import unhexlify
 # from subprocess import call
 from time import sleep
-from config import CONFIG
+import config
 # nelle nuove versioni di raspberry os lite, l'utente pi non è preimpostato nel gruppo bluetooth
 # per tanto, eseguire questo comando per poter utilizzare il bluetooth con questo utente
 # e per eseguire questo script
@@ -11,12 +11,12 @@ from config import CONFIG
 # call('rfkill unblock bluetooth && sudo service bluetooth start', shell=True)
 
 p = Peripheral()
-p.connect(CONFIG['MAC'])
+p.connect(config.MAC)
 
 def checkConn():
     while p.getState() != 'conn':
         sleep(5)
-        p.connect(CONFIG['MAC'])
+        p.connect(config.MAC)
 
 chars = p.getCharacteristics()
 writable = chars[2]
