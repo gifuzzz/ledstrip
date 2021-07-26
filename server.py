@@ -1,3 +1,4 @@
+#!/usr/bin/python3.9
 from time import sleep
 from flask.app import Flask
 from flask import render_template, request
