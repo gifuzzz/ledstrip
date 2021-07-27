@@ -1,4 +1,4 @@
-from bluepy.btle import Peripheral
+from bluepy.btle import Peripheral, Scanner
 from binascii import unhexlify
 # from subprocess import call
 from time import sleep
@@ -78,6 +78,12 @@ def setEffectSpeed(perc: int):
 
 def disconnect():
     p.disconnect()
+
+def scan(time:int=5):
+    disconnect()
+    s = Scanner()
+    res = s.scan(time)
+    return res
 
 modes = {
     'r': '80', # red

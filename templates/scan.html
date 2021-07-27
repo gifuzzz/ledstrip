@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Led Strip Control</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <p style="margin-top: 2%"><b class="green">GREEN: Most probable ledstrip device</b></p>
+    <p><b class="filled">FILLED: Connected ledstrip device</b></p>
+    <p>If it is filled, it means it is connected. That means you can go back to the main page and control your lights</p>
+    {% for dev in devices %}
+    <button type="button" class="dev btn btn-outline-{{devices[dev]}}" style="margin-top: 5px" >{{dev}}</button>
+    {% endfor %}
+</body>
+
+</html>
+<link rel="stylesheet" type="text/css" href="static/index.css">
+<script src="static/scan.js"></script>
+<style>
+
+.filled {
+    color: #ffc107
+}
+
+.green {
+    color: #28a745
+}
+
+</style>

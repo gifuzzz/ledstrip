@@ -17,7 +17,7 @@ const post = (url, data) => {
         url: url,
         data: data,
         success: function (result) {
-            console.log('success: ' + result)
+            console.log('res: ' + result)
         },
         error: function (result) {
             console.log('error: ' + result.error);

@@ -6,6 +6,7 @@ import rgbLedControl as ctl
 from threading import Thread
 import sys, string
 from os import path
+from json import dumps
 
 usable = ''.join([string.ascii_letters, string.digits, ':'])
 
@@ -77,11 +78,6 @@ def mode():
     ctl.setMode(mode)
     return 'Mode set to ' + mode
 
-@app.route('/reload')
-def reload():
-    Thread(target=ctl.checkConn).start()
-    return render_template('reload.html')
-
 @app.route('/status')
 def status():
     return ctl.p.getState()
@@ -90,14 +86,13 @@ def status():
 def setMac():
     if not 'mac' in request.form.keys():
         return 'no'
-
     mac = request.form.get('mac').strip()
     if len(mac) != 17 or len(mac.split(':')) != 6 or any([len(i) != 2 for i in mac.split(':')]) or any([i not in usable for i in mac]):
         return 'no'
     with open(path.join('config.py'),'w') as f:
         f.write('MAC = "'+mac+'"')
         ctl.config.MAC = mac
-        ctl.p.disconnect()
+        ctl.disconnect()
         try:
             ctl.p.connect(mac)
             chars = ctl.p.getCharacteristics()
@@ -106,6 +101,19 @@ def setMac():
             print(e, flush=True)
             return 'errore'
     return 'ok'
+
+@app.route('/scanapi')
+def scan():
+    res = ctl.scan()
+    return dumps({index: dev.addr.upper() for index, dev in enumerate(res)})
+    
+@app.route('/scan')
+def scanpage():
+    devices = {
+        d.addr.upper(): 'success' if d.addr.upper().startswith('BE:') else 'warning'
+            for d in ctl.scan()
+        }
+    return render_template('scan.html', devices = devices)
 
 modes = {
     'red': '80',
