@@ -76,43 +76,40 @@ def setEffectSpeed(perc: int):
     if len(perc) == 1: perc = '0' + perc
     writable.write(unhexlify(f'7e0002{perc}00000000ef'))
 
-def disconnect():
-    p.disconnect()
-
 def scan(time:int=5):
-    disconnect()
+    p.disconnect()
     s = Scanner()
     res = s.scan(time)
     return res
 
 modes = {
-    'r': '80', # red
-    'g': '81', # green
-    'b': '82', # blue
-    'y': '83', # yellow
-    'c': '84', # vyan
-    'm': '85', # magenta
-    'w': '86', # white
-    'jump_rgb': '87',
-    'jump_rgbycmw': '88',
-    'gradient_rgb': '89',
-    'gradient_rgbycmw': '8a',
-    'gradient_r': '8b',
-    'gradient_g': '8c',
-    'gradient_b': '8d',
-    'gradient_y': '8e',
-    'gradient_c': '8f',
-    'gradient_m': '90',
-    'gradient_w': '91',
-    'gradient_rg': '92',
-    'gradient_rb': '93', 
-    'gradient_gb': '94',
-    'blink_rgbycmw': '95',
-    'blink_r': '96',
-    'blink_g': '97',
-    'blink_b': '98',
-    'blink_y': '99',
-    'blink_c': '9a',
-    'blink_m': '9b',
-    'blink_w': '9c'
+    'red': '80',
+    'blue': '81',
+    'green': '82',
+    'cyan': '83',
+    'yellow': '84',
+    'magenta': '85',
+    'white': '86', 
+    'jump rgb': '87',
+    'jump rgbycmw': '88',
+    'gradient rgb': '89',
+    'gradient rgbycmw': '8a',
+    'gradient r': '8b',
+    'gradient g': '8c',
+    'gradient b': '8d',
+    'gradient y': '8e',
+    'gradient c': '8f',
+    'gradient m': '90',
+    'gradient w': '91',
+    'gradient rg': '92',
+    'gradient rb': '93', 
+    'gradient gb': '94',
+    'blink rgbycmw': '95',
+    'blink r': '96',
+    'blink g': '97',
+    'blink b': '98',
+    'blink y': '99',
+    'blink c': '9a',
+    'blink m': '9b',
+    'blink w': '9c'
     }
