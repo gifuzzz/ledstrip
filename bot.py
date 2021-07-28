@@ -156,6 +156,7 @@ def on_callback_query(msg):
         
         elif query_data in 'on off'.split():
             requests.get(f'http://localhost:3000/{query_data}')
+            return bot.editMessageText(telepot.message_identifier(msg['message']), getPower(True), reply_markup=power_keyboard)
 
         chosen, num, sign = query_data.split('_')
         # colors
@@ -169,7 +170,7 @@ def on_callback_query(msg):
                 if color[chosen] < 0:
                     color[chosen] = 0
             requests.get(f"http://localhost:3000/rgb?hex={''.join(col(color_) for color_ in color)}")
-            bot.editMessageText(telepot.message_identifier(msg['message']), getColors(), reply_markup=colors_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getColors(True), reply_markup=colors_keyboard)
             
             
 
@@ -185,7 +186,7 @@ def on_callback_query(msg):
                 if brightness < 0:
                     brightness = 0
             requests.get(f"http://localhost:3000/lum?lvl={brightness}")
-            bot.editMessageText(telepot.message_identifier(msg['message']), getBrightness(), reply_markup=brightness_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getBrightness(True), reply_markup=brightness_keyboard)
         
         # speed
         elif chosen == 'sp':
@@ -199,7 +200,7 @@ def on_callback_query(msg):
                 if speed < 0:
                     speed = 0
             requests.get(f"http://localhost:3000/speed?val={speed}")
-            bot.editMessageText(telepot.message_identifier(msg['message']), getSpeed(), reply_markup=speed_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getSpeed(True), reply_markup=speed_keyboard)
         
         bot.answerCallbackQuery(query_id, text=f'Got it!')
         

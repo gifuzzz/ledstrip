@@ -143,5 +143,5 @@ def conn():
         sleep(300)
 
 Thread(target=conn).start()
-
+bot.start()
 app.run('0.0.0.0', 3000)
