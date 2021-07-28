@@ -113,7 +113,8 @@ def setMac():
 
     except Exception as e:
         print(e, flush=True)
-        return 'errore'
+        return 'error'
+    bot.MAC = mac
     return 'ok'
 
 @app.route('/scanapi')
