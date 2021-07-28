@@ -9,12 +9,6 @@ from os import path
 from json import dumps
 import bot
 
-"""
-IDEA:
-fare un bot telegram per comandare i colori -> un'idea sarebbe usare dei pulsanti per aumentare o diminuire i colori in rgb
-
-"""
-
 usable = ''.join([string.ascii_letters, string.digits, ':'])
 
 app = Flask(__name__, static_folder='static')
