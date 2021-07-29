@@ -53,6 +53,7 @@ def basic_keyboard(callback):
 main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [power_button],
     [color_button],
+    [modes_button],
     [brightness_button],
     [speed_button],
     [connect_button],
