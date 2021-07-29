@@ -149,6 +149,7 @@ def getMode(message=True):
     if message:
         #           💫✨💥
         mess = 'Modes 🎊\n\n' + mess
+    return mess
 
 def getConnection(message=True):
     mess = f'Last device connected: {MAC}'
