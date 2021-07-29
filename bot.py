@@ -151,10 +151,9 @@ def getSpeed(message=True):
     return mess
 
 def getMode(message=True):
-    mess = f"Current mode: {mode.capitalize()}"
+    mess = f"Last mode: {mode.capitalize()}"
     if message:
-        #           💫✨💥
-        mess = 'Modes 🎊\n\n' + mess
+        mess = 'Modes ✨\n\n' + mess
     return mess
 
 def getConnection(message=True):
