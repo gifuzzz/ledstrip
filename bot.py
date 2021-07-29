@@ -2,7 +2,7 @@ import time
 import requests
 import telepot
 from telepot.loop import MessageLoop
-from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
+from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from pprint import pprint
 from traceback import print_exc
 from secret import BOT_TOKEN
@@ -43,8 +43,8 @@ speed_button = InlineKeyboardButton(text='Effect Speed 🏎', callback_data='spe
 connect_button = InlineKeyboardButton(text='Connect to device 🔌', callback_data='connect')
 delete_button = InlineKeyboardButton(text='❌', callback_data='delete')
 
-def basic_keyboard(callback):
-    return [home_button, InlineKeyboardButton(text='Refresh 🔄', callback_data=callback)], [delete_button]
+def refresh(callback):
+    return InlineKeyboardButton(text='Refresh 🔄', callback_data=callback)
 
 main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [power_button],
@@ -60,7 +60,8 @@ main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 power_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='ON', callback_data='on')],
     [InlineKeyboardButton(text='OFF', callback_data='off')],
-    basic_keyboard('power')
+    [home_button, refresh('power')],
+    [delete_button],
 ])
 
 colors_keyboard = InlineKeyboardMarkup(inline_keyboard=[
@@ -80,7 +81,8 @@ colors_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     createColorButtons(20, '-'),
     createColorButtons(50, '-'),
     createColorButtons(100, '-'),
-    basic_keyboard('color')
+    [home_button, refresh('color')],
+    [delete_button],
 ])
 
 def br_sp_keyboard(what):
@@ -97,7 +99,8 @@ def br_sp_keyboard(what):
         [InlineKeyboardButton(text='Min', callback_data=f'{what}_100_-')],
     ]
 
-    key.append(basic_keyboard('brightness' if what=='br' else 'speed'))
+    key.append([home_button, refresh('brightness' if what=='br' else 'speed')])
+    key.append([delete_button])
 
     return InlineKeyboardMarkup(inline_keyboard=key)
 
@@ -105,9 +108,16 @@ brightness_keyboard = br_sp_keyboard('br')
 speed_keyboard = br_sp_keyboard('sp')
 
 modes_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=mode, callback_data=f"mode_{modes[mode]}_.") for mode in modes],
-    basic_keyboard('modes')
-])
+    [
+        InlineKeyboardButton(text=mode, callback_data=f"mode_{modes[mode]}_."),
+        InlineKeyboardButton(text=list(modes.keys())[list(modes.keys()).index(mode)+1], callback_data=f"mode_{modes[list(modes.keys())[list(modes.keys()).index(mode)+1]]}_."),    
+    ] for mode in list(modes.keys())[:-1:2]] + ([
+            [InlineKeyboardButton(text=list(modes.keys())[-1], callback_data=f"mode_{modes[list(modes.keys())[-1]]}_.")]
+        ] if len(modes)%2==1 else []) + [
+        [home_button, refresh('modes')],
+        [delete_button]
+    ]
+)
 
 def mainMessage(msg):
     return f"Home 🏠\n\nHi {msg['from']['first_name']},\n\n{getPower(False)}\n{getColors(False)}\n{getBrightness(False)}\n{getSpeed(False)}"
@@ -158,7 +168,8 @@ def connect_keyboard(message=True):
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=dev, callback_data=f'conn_{dev}_.')] for dev in scan.values()
     ] + [
-        basic_keyboard('connect')
+        [home_button, refresh('connect')],
+    [delete_button],
     ])
 
 def on_chat_message(msg):
@@ -184,7 +195,7 @@ def on_callback_query(msg):
         elif query_data == 'speed':
             bot.editMessageText(telepot.message_identifier(msg['message']), getSpeed(), reply_markup=speed_keyboard)
         elif query_data == 'connect':
-            bot.editMessageText(telepot.message_identifier(msg['message']), 'Scanning, please wait for some seconds...', reply_markup=basic_keyboard('connect'))
+            bot.editMessageText(telepot.message_identifier(msg['message']), 'Scanning, please wait for some seconds...', reply_markup=ReplyKeyboardMarkup(inline_keyboard=[[home_button, refresh('power')],[delete_button]]))
             bot.editMessageText(telepot.message_identifier(msg['message']), getConnection(), reply_markup=connect_keyboard())
         elif query_data == 'delete':
             bot.deleteMessage(telepot.message_identifier(msg['message']))
@@ -246,7 +257,7 @@ def on_callback_query(msg):
         
         # connect device
         elif chosen == 'conn':
-            bot.editMessageText(telepot.message_identifier(msg['message']), 'Connecting...', reply_markup=basic_keyboard('connect'))
+            bot.editMessageText(telepot.message_identifier(msg['message']), 'Connecting...', reply_markup=ReplyKeyboardMarkup(inline_keyboard=[[home_button, refresh('connect')],[delete_button]]))
             r = requests.post('http://localhost:3000/setmac', {'mac': num})
             if r.text == 'ok':
                 bot.editMessageText(telepot.message_identifier(msg['message']), 'Connected!')
