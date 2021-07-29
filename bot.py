@@ -42,6 +42,8 @@ speed_button = InlineKeyboardButton(text='Effect Speed 🏎', callback_data='spe
 connect_button = InlineKeyboardButton(text='Connect to device 🔌', callback_data='connect')
 delete_button = InlineKeyboardButton(text='❌', callback_data='delete')
 
+basic_keyboard = InlineKeyboardMarkup(inline_keyboard=[[home_button],[delete_button]])
+
 main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [power_button],
     [color_button],
@@ -159,27 +161,31 @@ def on_callback_query(msg):
 
     try:
         if   query_data == 'home':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), mainMessage(msg), reply_markup=main_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), mainMessage(msg), reply_markup=main_keyboard)
         elif query_data == 'power':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getPower(), reply_markup=power_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getPower(), reply_markup=power_keyboard)
         elif query_data == 'color':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getColors(), reply_markup=colors_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getColors(), reply_markup=colors_keyboard)
         elif query_data == 'brightness':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getBrightness(), reply_markup=brightness_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getBrightness(), reply_markup=brightness_keyboard)
         elif query_data == 'speed':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getSpeed(), reply_markup=speed_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getSpeed(), reply_markup=speed_keyboard)
         elif query_data == 'connect':
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getConnection(), reply_markup=connect_keyboard())
+            bot.editMessageText(telepot.message_identifier(msg['message']), 'Scanning, please wait for some seconds...', reply_markup=basic_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getConnection(), reply_markup=connect_keyboard())
         elif query_data == 'delete':
-            return bot.deleteMessage(telepot.message_identifier(msg['message']))
+            bot.deleteMessage(telepot.message_identifier(msg['message']))
         elif query_data in 'red green blue'.split():
-            return bot.answerCallbackQuery(query_id, text=f'{query_data.capitalize()}')
+            bot.answerCallbackQuery(query_id, text=f'{query_data.capitalize()}')
         
         elif query_data in 'on off'.split():
             requests.get(f'http://localhost:3000/{query_data}')
-            return bot.editMessageText(telepot.message_identifier(msg['message']), getPower(), reply_markup=power_keyboard)
+            bot.editMessageText(telepot.message_identifier(msg['message']), getPower(), reply_markup=power_keyboard)
 
-        chosen, num, sign = query_data.split('_')
+        try:
+            chosen, num, sign = query_data.split('_')
+        except:
+            chosen = 'zzz'
         # colors
         if chosen in 'red green blue'.split():
             if sign == '+':
@@ -223,10 +229,11 @@ def on_callback_query(msg):
         
         # connect device
         elif chosen == 'conn':
+            bot.editMessageText(telepot.message_identifier(msg['message']), 'Connecting...', reply_markup=basic_keyboard)
             r = requests.post('http://localhost:3000/setmac', {'mac': num})
             if r.text == 'ok':
                 bot.editMessageText(telepot.message_identifier(msg['message']), 'Connected!')
-                time.sleep(2)
+                time.sleep(1)
                 bot.editMessageText(telepot.message_identifier(msg['message']), mainMessage(msg), reply_markup=main_keyboard)
             else:
                 bot.editMessageText(telepot.message_identifier(msg['message']), f'Connect to device 🔌\n\nFailed to connect to {num}', reply_markup=connect_keyboard())
