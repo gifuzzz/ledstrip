@@ -8,6 +8,7 @@ import string
 from os import path
 from json import dumps
 import bot
+from config import modes
 
 usable = ''.join([string.ascii_letters, string.digits, ':'])
 
@@ -83,6 +84,7 @@ def off():
 def mode():
     mode = request.args.get('mode') or 0
     ctl.setMode(mode)
+    bot.mode = list(modes.keys())[list(modes.values()).index(mode)]
     return 'Mode set to ' + mode
 
 @app.route('/status')
@@ -129,8 +131,6 @@ def scanpage():
             for d in ctl.scan()
         }
     return render_template('scan.html', devices = devices)
-
-modes = ctl.modes
 
 def conn():
     while 1:
