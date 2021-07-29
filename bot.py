@@ -14,7 +14,7 @@ color = {
     'blue': 0
 }
 
-mode = None
+mode = 'None'
 isOn = False
 brightness = 75
 speed = 75
