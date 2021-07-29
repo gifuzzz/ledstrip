@@ -2,7 +2,7 @@ from bluepy.btle import Peripheral, Scanner
 from binascii import unhexlify
 # from subprocess import call
 from time import sleep
-import config
+from config import MAC
 # nelle nuove versioni di raspberry os lite, l'utente pi non è preimpostato nel gruppo bluetooth
 # per tanto, eseguire questo comando per poter utilizzare il bluetooth con questo utente
 # e per eseguire questo script
@@ -12,7 +12,7 @@ import config
 
 p = Peripheral()
 try:
-    p.connect(config.MAC)
+    p.connect(MAC)
 except:
     pass
 
@@ -20,7 +20,7 @@ def checkConn():
     while p.getState() != 'conn':
         sleep(5)
         try:
-            p.connect(config.MAC)
+            p.connect(MAC)
         except:
             pass
 
@@ -81,35 +81,3 @@ def scan(time:int=5):
     s = Scanner()
     res = s.scan(time)
     return res
-
-modes = {
-    'red': '80',
-    'blue': '81',
-    'green': '82',
-    'cyan': '83',
-    'yellow': '84',
-    'magenta': '85',
-    'white': '86', 
-    'jump rgb': '87',
-    'jump rgbycmw': '88',
-    'gradient rgb': '89',
-    'gradient rgbycmw': '8a',
-    'gradient r': '8b',
-    'gradient g': '8c',
-    'gradient b': '8d',
-    'gradient y': '8e',
-    'gradient c': '8f',
-    'gradient m': '90',
-    'gradient w': '91',
-    'gradient rg': '92',
-    'gradient rb': '93', 
-    'gradient gb': '94',
-    'blink rgbycmw': '95',
-    'blink r': '96',
-    'blink g': '97',
-    'blink b': '98',
-    'blink y': '99',
-    'blink c': '9a',
-    'blink m': '9b',
-    'blink w': '9c'
-    }
