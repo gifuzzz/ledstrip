@@ -1,7 +1,7 @@
 # ledstrip
 
-I made this to control my aoguerbe led strip lights from internet.
-I only used this with a Raspberry Pi, but bluepy should run on x86 Debian Linux.
+I made this to control my aoguerbe led strip lights from web browsers and telegram.
+I only used this with a Raspberry Pi, but `bluepy` should run on x86 Debian Linux.
 
 ## Usage
 
