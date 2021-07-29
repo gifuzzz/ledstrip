@@ -110,7 +110,7 @@ speed_keyboard = br_sp_keyboard('sp')
 modes_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [
         InlineKeyboardButton(text=mode, callback_data=f"mode_{modes[mode]}_."),
-        InlineKeyboardButton(text=list(modes.keys())[list(modes.keys()).index(mode)+1], callback_data=f"mode_{modes[list(modes.keys())[list(modes.keys()).index(mode)+1]]}_."),    
+        InlineKeyboardButton(text=list(modes.keys())[list(modes.keys()).index(mode)+1].capitalize(), callback_data=f"mode_{modes[list(modes.keys())[list(modes.keys()).index(mode)+1]]}_."),    
     ] for mode in list(modes.keys())[:-1:2]] + ([
             [InlineKeyboardButton(text=list(modes.keys())[-1], callback_data=f"mode_{modes[list(modes.keys())[-1]]}_.")]
         ] if len(modes)%2==1 else []) + [
