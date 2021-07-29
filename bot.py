@@ -251,7 +251,7 @@ answerer = telepot.helper.Answerer(bot)
 def start():
     MessageLoop(bot, {'chat': on_chat_message,
                       'callback_query': on_callback_query}).run_as_thread()
-    print('Listening ...')
+    print('[+] Bot online!')
 
 if __name__ == '__main__':
     changeColor('ff1900')
