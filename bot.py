@@ -44,11 +44,11 @@ connect_button = InlineKeyboardButton(text='Connect to device 🔌', callback_da
 delete_button = InlineKeyboardButton(text='❌', callback_data='delete')
 
 def basic_keyboard(callback):
-    return InlineKeyboardMarkup(inline_keyboard=[
+    return [
         [
             home_button, InlineKeyboardButton(text='Refresh 🔄', callback_data=callback)
         ], [delete_button]
-    ])
+    ]
 
 main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [power_button],
