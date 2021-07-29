@@ -84,7 +84,7 @@ def off():
 def mode():
     mode = request.args.get('mode') or 0
     ctl.setMode(mode)
-    bot.mode = modes.keys()[list(modes.values()).index(mode)]
+    bot.mode = list(modes.keys())[list(modes.values()).index(mode)]
     return 'Mode set to ' + mode
 
 @app.route('/status')
