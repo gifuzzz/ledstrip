@@ -53,7 +53,7 @@ main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [brightness_button],
     [speed_button],
     [connect_button],
-    [InlineKeyboardButton(text='Refresh 🔄', callback_data='home')],
+    [refresh('home')],
     [delete_button],
 ])
 
@@ -120,7 +120,7 @@ modes_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 )
 
 def mainMessage(msg):
-    return f"Home 🏠\n\nHi {msg['from']['first_name']},\n\n{getPower(False)}\n{getColors(False)}\n{getBrightness(False)}\n{getSpeed(False)}"
+    return f"Home 🏠\n\nHi {msg['from']['first_name'] } 👋\n\n{getPower(False)}\n{getColors(False)}\n{getBrightness(False)}\n{getSpeed(False)}"
 
 def col(color_: int):
     hex_ = hex(color[color_])[2:]
