@@ -105,7 +105,7 @@ def setMac():
     with open('config.py', 'w') as f:
         f.write('MAC = "'+mac+'"')
 
-    ctl.config.MAC = mac
+    ctl.MAC = mac
     ctl.p.disconnect()
 
     try:
